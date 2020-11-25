@@ -145,20 +145,22 @@ def timeout(seconds=10, error_message=os.strerror(errno.ETIME)):
 
         def wrapper(*args, **kwargs):
             old_signal = signal.signal(signal.SIGALRM, partial(_handle_timeout, 0))
-            old_time_left = signal.alarm(seconds)
+            old_time_left = 10 #signal.alarm(seconds) #FIX ME
             assert type(old_time_left) is int and old_time_left >= 0
             if 0 < old_time_left < seconds:  # do not exceed previous timer
                 signal.alarm(old_time_left)
             start_time = time.time()
-            try:
-                result = func(*args, **kwargs)
-            finally:
-                if old_time_left == 0:
-                    signal.alarm(0)
-                else:
-                    sub = time.time() - start_time
-                    signal.signal(signal.SIGALRM, old_signal)
-                    signal.alarm(max(0, math.ceil(old_time_left - sub)))
+            # FIX ME
+            result = func(*args, **kwargs)
+            # try:
+            #     result = func(*args, **kwargs)
+            # finally:
+            #     if old_time_left == 0:
+            #         signal.alarm(0)
+            #     else:
+            #         sub = time.time() - start_time
+            #         signal.signal(signal.SIGALRM, old_signal)
+            #         signal.alarm(max(0, math.ceil(old_time_left - sub)))
             return result
 
         return wraps(func)(wrapper)

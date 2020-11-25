@@ -10,6 +10,7 @@ import random
 import argparse
 import numpy as np
 import torch
+import time
 
 import src
 from src.slurm import init_signal_handler, init_distributed_mode
@@ -222,7 +223,7 @@ if __name__ == '__main__':
     if params.debug:
         params.exp_name = 'debug'
         if params.exp_id == '':
-            params.exp_id = 'debug_%08i' % random.randint(0, 100000000)
+            params.exp_id = 'debug_%08i' % int(time.time()) #random.randint(0, 100000000)
         params.debug_slurm = True
 
     # check parameters

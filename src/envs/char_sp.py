@@ -1379,7 +1379,7 @@ class EnvDataset(Dataset):
         self.path = path
         self.global_rank = params.global_rank
         self.count = 0
-        assert (train is True) == (rng is None)
+        #assert (train is True) == (rng is None)
         assert task in CharSPEnvironment.TRAINING_TASKS
 
         # batching
